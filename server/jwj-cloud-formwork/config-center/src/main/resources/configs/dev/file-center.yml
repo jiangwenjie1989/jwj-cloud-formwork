@@ -1,0 +1,43 @@
+logging:
+  level:
+    root: info
+    com.cloud: debug
+  file: logs/${spring.application.name}.log
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+
+  mvc:
+    servlet:
+      load-on-startup: 1
+  aop:
+    proxy-target-class: true
+
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+
+fdfs:
+  connectTimeout: 601
+  soTimeout: 1501
+  thumbImage:
+    height: 80
+    width: 80
+  trackerList[0]: 192.168.1.110:22122 #图片服务器地址
+  groupName: jwj/ #fastdfs图片服务器配置的组织名称
+  tempDirectory: F:\\temp\\ #临时目录  部署在服务器上面请修改 例如：/home/data/temp/

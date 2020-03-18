@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: register-center
+server:
+  port: 8761
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.103:${server.port}/eureka/
+    register-with-eureka: true #默认设置下是true，服务注册中心也会将自己作为客户端来尝试注册自己
+    fetch-registry: false  #由于注册中心的职责就是维护服务实例，它并不需要去检索服务，所以也设置为false
+
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: info
+  file: logs/${spring.application.name}.log

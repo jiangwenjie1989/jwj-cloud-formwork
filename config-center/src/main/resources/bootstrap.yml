@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: config-center
+  profiles:
+    active: native #表示本地  git存放在远程git仓库
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/configs/{profile}
+          #searchLocations: file:/d:/configs/{profile} 本地某个目录
+        git:
+          uri: https://gitee.com/**.git
+          default-label: master
+          force-pull: true
+          searchPaths: '{profile}'
+
+
+#服务端口
+server:
+  port: 9001 #0表示不固定端口配合下面的随机
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.103:8761/eureka/
+    registry-fetch-interval-seconds: 5
+
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.int}
+
+
+
+#监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+#日志配置
+logging:
+  level:
+    root: info
+  file: logs/${spring.application.name}.log

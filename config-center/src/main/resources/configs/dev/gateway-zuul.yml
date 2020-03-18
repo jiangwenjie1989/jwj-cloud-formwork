@@ -1,0 +1,73 @@
+logging:
+  level:
+    root: info
+    com.cloud: debug
+  file: logs/${spring.application.name}.log
+
+zuul:
+  ignored-services: '*'
+  sensitiveHeaders: 
+  routes:
+    api-u:
+      path: /api-u/**
+      serviceId: user-center
+    backend:
+      path: /api-b/**
+      serviceId: background-manage
+    log:
+      path: /api-l/**
+      serviceId: log-center
+    file:
+      path: /api-f/**
+      serviceId: file-center
+    sms:
+      path: /api-m/**
+      serviceId: message-center
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+  add-proxy-headers: true
+  ribbon:
+    eager-load:
+      enabled: true
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+
+  redis:
+    host: 120.79.157.199
+    port: 6379
+    password: 740498523
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+
+  rabbitmq:
+    host: 192.168.1.105
+    port: 5672
+    username: cloud-dev
+    password: cloud-dev
+    virtual-host: /
+
+#私钥
+app:
+  privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAmdfQK+F4TBzoxG9w78ApnxNllQgqA+49oGTi5kXiVqVFZPyCi26RBtxHRQwk7XL03Ezyd0CHA7ZAdG0r4MKfiwIDAQABAkBTgAqSNp+nmC1SqTYAOymcGNgS6sp7Na0nSHrLB3VRFynVYSVdF9JxP49ccKoyMYZ3NF3COPJfG4++KKLcH8tRAiEA8CuYB4M9G7NGji/cCIe8qWAsrRC4zigc4O8OVFPE9uMCIQCj+51b/XugHIWEt+Mxf+OdtDK3ieeoy0M/zJaIAWNtOQIhALri4VFvQTzt2whHm6uTnC4cpYciTPw24Inz262o5crLAiBV6Tns+uVs4eR1vt1xjn4Snli/3akXvr4Ry77FrGyJyQIgUPxXEY0TyO1nmwHUQFde1o4qKmzVihQlJviEiw6wJ/o=
+  salt: 2oEzsdwaX5KswhP7CjdXZdB1dEPiTfe #加盐
+
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
